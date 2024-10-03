@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.banking.banking.dto.AccountDto;
 import com.banking.banking.service.AccountService;
+
+import lombok.Delegate;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -60,6 +63,12 @@ public class AccountController {
 	public ResponseEntity<List<AccountDto>> getAllAccounts(){
 		List<AccountDto> accounts = service.getAllAccounts();
 		return ResponseEntity.ok(accounts); 
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deleteAccount(@PathVariable Long id){
+		service.deleteAccount(id);
+		return ResponseEntity.ok("Account "+ id +" is deleted sucessfully");
 	}
 
 }
