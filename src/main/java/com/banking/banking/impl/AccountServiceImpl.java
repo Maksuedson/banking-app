@@ -1,5 +1,8 @@
 package com.banking.banking.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.banking.banking.dto.AccountDto;
@@ -61,6 +64,15 @@ public class AccountServiceImpl implements AccountService{
 		account.setBalance(total);
 		Account savedAccount = repo.save(account);
 		return AccountMapper.mapToAccountDto(savedAccount);
+	}
+
+	@Override
+	public List<AccountDto> getAllAccounts() {
+		List<Account> accounts = repo.findAll();
+		return accounts
+				.stream()
+				.map(AccountMapper::mapToAccountDto)
+				.toList();
 	}
 
 }

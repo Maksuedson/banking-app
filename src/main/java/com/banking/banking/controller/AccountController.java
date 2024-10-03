@@ -1,5 +1,6 @@
 package com.banking.banking.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,12 @@ public class AccountController {
 		Double amount = request.get("amount");
 		AccountDto accountDto = service.withdraw(id, amount);
 		return ResponseEntity.ok(accountDto);
-	}	
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<AccountDto>> getAllAccounts(){
+		List<AccountDto> accounts = service.getAllAccounts();
+		return ResponseEntity.ok(accounts); 
+	}
 
 }
