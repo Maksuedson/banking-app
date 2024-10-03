@@ -17,7 +17,6 @@ public class AccountServiceImpl implements AccountService{
 		this.repo = repo;
 	}
 
-
 	@Override
 	public AccountDto createAccount(AccountDto accountDto) {
 		Account account = AccountMapper.mapToAccount(accountDto);
@@ -25,15 +24,27 @@ public class AccountServiceImpl implements AccountService{
 		return AccountMapper.mapToAccountDto(saveAccount);
 	}
 
-
 	@Override
 	public AccountDto getAccountById(Long id) {
 		
 		Account account = repo
 		.findById(id)
-		.orElseThrow(() -> new RuntimeException("Account does not exists") );
+		.orElseThrow(() -> new RuntimeException("Account does not exists"));
 		
 		return AccountMapper.mapToAccountDto(account);
+	}
+
+	@Override
+	public AccountDto deposit(Long id, Double amount) {
+		
+		Account account = repo
+		.findById(id)
+		.orElseThrow(() -> new RuntimeException("Account does not exists"));
+		
+		double total = account.getBalance() + amount;
+		account.setBalance(total);
+		Account savedAccount = repo.save(account);
+		return AccountMapper.mapToAccountDto(savedAccount);
 	}
 
 }
